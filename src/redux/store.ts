@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import Shapes from './Shapes'
+import  GlobalSettings  from './Global'
 // ...
 
 export const store = configureStore({
   reducer: {
-    Shapes: Shapes
+    Shapes: Shapes,
+    GlobalSettings: GlobalSettings
   }
 })
 

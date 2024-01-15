@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAppDispatch } from "../hooks/hooks";
 import { addShape } from "../redux/Shapes";
 import ShapeCollection from "./ShapeCollection";
+import TextureTab from "./Texture";
 // import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 
 interface Vec3 {
@@ -24,6 +25,7 @@ function InputTab() {
       size: [size.x, size.y, size.z],
       color: color,
       shape: shape,
+      texture: null
     };
   }
 
@@ -192,6 +194,7 @@ function InputTab() {
         <div className="text-center border-l-2 border-red-400 p-2 ">
           <ShapeCollection />
         </div>
+        <TextureTab />
       </div>
     </>
   );

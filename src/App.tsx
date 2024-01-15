@@ -8,6 +8,7 @@ import {
   Cylinder,
   Cone,
   Outlines,
+  Wireframe
 } from "@react-three/drei";
 
 import * as THREE from "three";
@@ -16,12 +17,24 @@ import { useAppSelector } from "./hooks/hooks";
 
 const CanvasTest = () => {
   const shapeArray = useAppSelector((state) => state.Shapes); // odczyt
+  const Global = useAppSelector((state) => state.GlobalSettings); // odczyt
   
   const [colorMap] = useLoader(THREE.TextureLoader, [
-    'PavingStonesJPG/PavingStones092_1K_Color.jpg',
-
-
+    'stone.jpg',
   ])
+  const [colorMap2] = useLoader(THREE.TextureLoader, [
+    'low_poly.jpg',
+  ])
+  const [colorMap3] = useLoader(THREE.TextureLoader, [
+    'black-polygon.jpg',
+  ])
+  const [colorMap4] = useLoader(THREE.TextureLoader, [
+    'grass.jpg',
+  ])
+  const [colorMap5] = useLoader(THREE.TextureLoader, [
+    'mesh.png',
+  ])
+
 
   const getShapeComponent = (shapeType: string) => {
     switch (shapeType) {
@@ -31,9 +44,9 @@ const CanvasTest = () => {
         return Sphere;
       case "Cylinder":
         return Cylinder;
-      case "Cone":
+        case "Cone":
         return Cone;
-      default:
+        default:
         return Box; // Domyślny kształt
     }
   };
@@ -41,14 +54,14 @@ const CanvasTest = () => {
   const getShapeSize = (
     shapeType: string,
     size: number[]
-  ): [number, number?, number?] => {
-    switch (shapeType) {
-      case "Box":
+    ): [number, number?, number?] => {
+      switch (shapeType) {
+        case "Box":
         return [size[0], size[1], size[2]];
         case "Sphere":
         return [size[0]]; // Zakładam, że rozmiar sfery to tylko promień
-      case "Cylinder":
-        return [size[0], size[0], size[2]]; // Zakładam, że rozmiar cylindra to promień podstawy, promień górnej podstawy, wysokość
+        case "Cylinder":
+          return [size[0], size[0], size[2]]; // Zakładam, że rozmiar cylindra to promień podstawy, promień górnej podstawy, wysokość
       case "Cone":
         return [size[0], size[1]]; // Zakładam, że rozmiar stożka to promień podstawy, wysokość
       default:
@@ -66,7 +79,7 @@ const CanvasTest = () => {
           position={[0, 4, 1]}
           args={[0xac733f, 10]}
           castShadow
-        />
+          />
 
         <Environment background near={1} far={1000} resolution={256}>
           <mesh scale={100}>
@@ -77,6 +90,7 @@ const CanvasTest = () => {
 
         {shapeArray.value.map((shape, key) => {
           const ShapeComponent = getShapeComponent(shape.shape);
+          console.log(Global.wireframe)
           return (
             <PivotControls
               key={key}
@@ -91,10 +105,7 @@ const CanvasTest = () => {
               anchor={[0, 0, 0]}
             >
               '
-              {/* <mesh>
-                <cylinderGeometry args={[2,2,3]} />
-                <meshStandardMaterial color={shape.color} {...props}/>
-              </mesh> */}
+   
               <ShapeComponent
                 position={[
                   shape.position[0],
@@ -103,15 +114,22 @@ const CanvasTest = () => {
                 ]}
                 args={getShapeSize(shape.shape, shape.size)}
               >
-                <meshStandardMaterial color={shape.color}   map={colorMap}
-
- />
+                <meshStandardMaterial color={shape.color}  map={
+                shape.texture == 10 
+                ? colorMap 
+                : shape.texture == 11
+                ? colorMap2 
+                : shape.texture == 12
+                ? colorMap3
+                : shape.texture == 13
+                ? colorMap4 
+                : colorMap5
+                }
+                
+ /> 
                 <Outlines thickness={0.01} color="black" opacity={0.1} />
+              {Global.wireframe && <Wireframe  stroke={0xbc214a}  thickness={0.02} />}
               </ShapeComponent>
-              {/* <mesh position={[shape.position[0],shape.position[1],shape.position[2]]} castShadow receiveShadow>
-                <boxGeometry args={[shape.size[0],shape.size[1],shape.size[2]]} />
-                <meshStandardMaterial color={shape.color} />
-              </mesh> */}
             </PivotControls>
           );
         })}
