@@ -1,4 +1,4 @@
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useLoader } from "@react-three/fiber";
 import {
   OrbitControls,
   Environment,
@@ -16,7 +16,12 @@ import { useAppSelector } from "./hooks/hooks";
 
 const CanvasTest = () => {
   const shapeArray = useAppSelector((state) => state.Shapes); // odczyt
-  // const dispatch = useAppDispatch(); // zmiana
+  
+  const [colorMap] = useLoader(THREE.TextureLoader, [
+    'PavingStonesJPG/PavingStones092_1K_Color.jpg',
+
+
+  ])
 
   const getShapeComponent = (shapeType: string) => {
     switch (shapeType) {
@@ -32,7 +37,7 @@ const CanvasTest = () => {
         return Box; // Domyślny kształt
     }
   };
-
+  
   const getShapeSize = (
     shapeType: string,
     size: number[]
@@ -40,7 +45,7 @@ const CanvasTest = () => {
     switch (shapeType) {
       case "Box":
         return [size[0], size[1], size[2]];
-      case "Sphere":
+        case "Sphere":
         return [size[0]]; // Zakładam, że rozmiar sfery to tylko promień
       case "Cylinder":
         return [size[0], size[0], size[2]]; // Zakładam, że rozmiar cylindra to promień podstawy, promień górnej podstawy, wysokość
@@ -88,7 +93,7 @@ const CanvasTest = () => {
               '
               {/* <mesh>
                 <cylinderGeometry args={[2,2,3]} />
-                <meshStandardMaterial color={shape.color}/>
+                <meshStandardMaterial color={shape.color} {...props}/>
               </mesh> */}
               <ShapeComponent
                 position={[
@@ -98,7 +103,9 @@ const CanvasTest = () => {
                 ]}
                 args={getShapeSize(shape.shape, shape.size)}
               >
-                <meshStandardMaterial color={shape.color} />
+                <meshStandardMaterial color={shape.color}   map={colorMap}
+
+ />
                 <Outlines thickness={0.01} color="black" opacity={0.1} />
               </ShapeComponent>
               {/* <mesh position={[shape.position[0],shape.position[1],shape.position[2]]} castShadow receiveShadow>

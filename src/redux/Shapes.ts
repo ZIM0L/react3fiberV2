@@ -18,7 +18,19 @@ const initialState: IShape = {
     {
       position: [1, 1, 1],
       size: [1, 1, 1],
-      color: "red",
+      color: "#ffffaa",
+      shape: "Box",
+    },
+    {
+      position: [-1, 1, 1],
+      size: [1, 1, 1],
+      color: "#003344",
+      shape: "Box",
+    },
+    {
+      position: [0, 1, 2],
+      size: [1, 1, 1],
+      color: "#ad0033",
       shape: "Box",
     },
   ],
@@ -35,9 +47,15 @@ export const Shape = createSlice({
       // Action.payload powinien zawierać indeks kształtu do usunięcia
       state.value.splice(action.payload, 1);
     },
+    changeShapeColor: (state, action: PayloadAction<{ index: number; color: string }>) => {
+      const { index, color } = action.payload;
+      if (state.value[index]) {
+        state.value[index].color = color;
+      }
+    },
   },
 });
 
-export const { addShape, removeShape } = Shape.actions;
+export const { addShape, removeShape, changeShapeColor } = Shape.actions;
 
 export default Shape.reducer;
