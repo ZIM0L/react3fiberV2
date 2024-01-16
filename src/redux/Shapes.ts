@@ -50,13 +50,19 @@ export const Shape = createSlice({
     removeShape: (state, action: PayloadAction<number>) => {
       state.value.splice(action.payload, 1);
     },
-    changeShapeColor: (state, action: PayloadAction<{ index: number; color: string }>) => {
+    changeShapeColor: (
+      state,
+      action: PayloadAction<{ index: number; color: string }>
+    ) => {
       const { index, color } = action.payload;
       if (state.value[index]) {
         state.value[index].color = color;
       }
     },
-    setShapeTexture: (state, action: PayloadAction<{ index: number; texture: number | null }>) => {
+    setShapeTexture: (
+      state,
+      action: PayloadAction<{ index: number; texture: number | null }>
+    ) => {
       const { index, texture } = action.payload;
       if (state.value[index]) {
         state.value[index].texture = texture;
@@ -65,6 +71,7 @@ export const Shape = createSlice({
   },
 });
 
-export const { addShape, removeShape, changeShapeColor, setShapeTexture } = Shape.actions;
+export const { addShape, removeShape, changeShapeColor, setShapeTexture } =
+  Shape.actions;
 
 export default Shape.reducer;

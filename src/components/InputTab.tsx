@@ -3,6 +3,7 @@ import { useAppDispatch } from "../hooks/hooks";
 import { addShape } from "../redux/Shapes";
 import ShapeCollection from "./ShapeCollection";
 import TextureTab from "./Texture";
+import LightControl from "./LightTab";
 // import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 
 interface Vec3 {
@@ -190,12 +191,14 @@ function InputTab() {
               Create shape
             </div>
           </form>
+          <LightControl />
         </div>
         <div className="text-center border-l-2 border-red-400 p-2 ">
           <ShapeCollection />
         </div>
         <TextureTab />
       </div>
+      
     </>
   );
 }

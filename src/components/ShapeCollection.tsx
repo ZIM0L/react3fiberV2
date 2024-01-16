@@ -33,12 +33,16 @@ function ShapeCollection() {
           <span
             className="hover:text-red-400 hover:cursor-pointer border-2 border-red-500 p-1"
             onClick={handleRemoveShape}
-            >
+          >
             Delete shape
           </span>
         </div>
-            <div onClick={() => dispatch(wireframeToggle())} className="border-2 cursor-help border-red-400 p-1 hover:border-yellow-400">Toggle wireframe</div>
-
+        <div
+          onClick={() => dispatch(wireframeToggle())}
+          className="border-2 cursor-help border-red-400 p-1 hover:border-yellow-400"
+        >
+          Toggle wireframe
+        </div>
       </div>
 
       {/* Tutaj możesz renderować informacje o kształtach */}
@@ -54,7 +58,6 @@ function ShapeCollection() {
               onChange={(e) => handleColorChange(e, key)}
               value={shape.color}
             />
-            
           </div>
         ))}
       </div>
