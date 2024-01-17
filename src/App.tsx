@@ -9,12 +9,15 @@ import {
   Cone,
   Outlines,
   Wireframe,
+  Stars,
+  Sparkles
 } from "@react-three/drei";
 
 import * as THREE from "three";
 import InputTab from "./components/InputTab";
 import { useAppSelector } from "./hooks/hooks";
-
+import DirectionaLightComp from "./components/Lights/Directionallight";
+import SpotLightComp from "./components/Lights/SpotLight";
 const CanvasTest = () => {
   const shapeArray = useAppSelector((state) => state.Shapes); // odczyt
   const Global = useAppSelector((state) => state.GlobalSettings); // odczyt
@@ -58,46 +61,33 @@ const CanvasTest = () => {
     }
   };
 
-  const directionalLight = Global.Lights.directLight;
+
   return (
     <>
       <InputTab />
-      <Canvas style={{ position: "absolute" }} shadows>
-        <OrbitControls makeDefault />
-        <PivotControls
-          lineWidth={1}
-          rotation={[0, -Math.PI / 2, 0]}
-          axisColors={[0xf2e8cc, 0xf2e8cc, 0xf2e8cc]}
-        >
-          <ambientLight intensity={1} />
+      <Canvas style={{ position: "absolute" }} camera={{ position: [0, 4, 8] }} shadows>
+      <OrbitControls makeDefault  />
+      <ambientLight intensity={1.5} />
 
-          {/* <SpotLight
-        castShadow 
-  distance={5}
-  angle={0.15}
-  attenuation={5}
-  anglePower={5} // Diffuse-cone anglePower (default: 5)
-/> */}
-          {directionalLight.toggle && (
-            <directionalLight
-              intensity={2}
-              position={[
-                directionalLight.position[0],
-                directionalLight.position[1],
-                directionalLight.position[2],
-              ]}
-              args={[directionalLight.args[0], directionalLight.args[1]]}
-              castShadow={true}
-            />
-          )}
-        </PivotControls>
+      <SpotLightComp />
+      <DirectionaLightComp/>
 
+      {
+        Global.EnvColor.toogle 
+        ? 
         <Environment background near={1} far={1000} resolution={256}>
           <mesh scale={100}>
             <sphereGeometry args={[1, 64, 64]} />
-            <meshBasicMaterial color={0x00aaaa} side={THREE.BackSide} />
+            <meshBasicMaterial color={Global.EnvColor.mesh} side={THREE.BackSide} />
           </mesh>
         </Environment>
+        
+        :
+        <>
+          <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={3} />
+          <Sparkles count={120} speed={3.3} opacity={1} color={'#ffa500'} size={5} scale={[20,20,20]} noise={2}/>
+        </>
+      }
 
         {shapeArray.value.map((shape, key) => {
           const ShapeComponent = getShapeComponent(shape.shape);
@@ -105,6 +95,7 @@ const CanvasTest = () => {
             <PivotControls
               key={key}
               opacity={0.6}
+              
               scale={
                 ((shape.size[0] + shape.size[1] + shape.size[2]) / 4) * 1.2
               }

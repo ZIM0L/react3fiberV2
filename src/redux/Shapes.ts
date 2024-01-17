@@ -37,6 +37,13 @@ const initialState: IShape = {
       shape: "Box",
       texture: null,
     },
+    {
+      position: [0, 1, -3],
+      size: [1, 1, 1],
+      color: "#1574bc",
+      shape: "Sphere",
+      texture: null,
+    },
   ],
 };
 

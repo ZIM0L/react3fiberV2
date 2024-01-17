@@ -4,7 +4,6 @@ import { addShape } from "../redux/Shapes";
 import ShapeCollection from "./ShapeCollection";
 import TextureTab from "./Texture";
 import LightControl from "./LightTab";
-// import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 
 interface Vec3 {
   x: number;
@@ -26,7 +25,7 @@ function InputTab() {
       size: [size.x, size.y, size.z],
       color: color,
       shape: shape,
-      texture: null
+      texture: null,
     };
   }
 
@@ -198,7 +197,6 @@ function InputTab() {
         </div>
         <TextureTab />
       </div>
-      
     </>
   );
 }
