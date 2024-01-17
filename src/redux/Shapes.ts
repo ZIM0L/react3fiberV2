@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// Define a type for the slice state
+// interface dla ksztaltow
 interface IShapeInfo {
   position: number[];
   size: number[];
@@ -13,7 +13,7 @@ export interface IShape {
   value: IShapeInfo[];
 }
 
-// Define the initial state using that type
+// poczatkowe ksztalty
 const initialState: IShape = {
   value: [
     {
@@ -46,10 +46,11 @@ const initialState: IShape = {
     },
   ],
 };
-
+// redux dla ksztaltow
 export const Shape = createSlice({
   name: "shapes",
   initialState,
+  // funkcje dla ksztaltow
   reducers: {
     addShape: (state, action: PayloadAction<IShapeInfo>) => {
       state.value.push(action.payload);

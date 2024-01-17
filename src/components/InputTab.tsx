@@ -5,6 +5,7 @@ import ShapeCollection from "./ShapeCollection";
 import TextureTab from "./Texture";
 import LightControl from "./LightTab";
 
+//Interface dla pozycji
 interface Vec3 {
   x: number;
   y: number;
@@ -12,6 +13,7 @@ interface Vec3 {
 }
 
 function InputTab() {
+  // dispatch jest potrzebny aby wywolywac metody globalnych z reduxa
   const dispatch = useAppDispatch();
 
   const [position, setPosition] = useState<Vec3>({ x: 0, y: 0, z: 0 });
@@ -19,6 +21,7 @@ function InputTab() {
   const [color, setColor] = useState("#ffffff");
   const [shape, setShape] = useState("Box");
 
+  //funkcja do tworzenia obiektu ksztaltu
   function handleShapeCreate() {
     return {
       position: [position.x, position.y, position.z],
@@ -28,7 +31,6 @@ function InputTab() {
       texture: null,
     };
   }
-
   return (
     <>
       <div className=" text-red-400 text-center">Shape Creator</div>
@@ -133,6 +135,7 @@ function InputTab() {
                 />
               </div>
             </div>
+            {/* Shape */}
             <div className="flex flex-col">
               <div
                 onClick={(e) => {
@@ -176,6 +179,7 @@ function InputTab() {
               </div>
             </div>
             <div>
+              {/* Color */}
               <label>Color: </label>
               <input
                 type="color"
@@ -183,6 +187,7 @@ function InputTab() {
                 onChange={(e) => setColor(e.target.value)}
               />
             </div>
+            {/* Div odpowiedzialny za utworzenie ksztaltu i dodanie do tablicy ksztaltow w reduxie */}
             <div
               onClick={() => dispatch(addShape(handleShapeCreate()))}
               className="hover:text-red-400 hover:cursor-pointer border-2 border-red-500 p-1"
@@ -190,11 +195,14 @@ function InputTab() {
               Create shape
             </div>
           </form>
+          {/* Component od swiatla i mesha swiata */}
           <LightControl />
         </div>
         <div className="text-center border-l-2 border-red-400 p-2 ">
+          {/* Component od pokazywania ksztaltow wystepujacych i usuwania */}
           <ShapeCollection />
         </div>
+        {/* Component od nakladania textur */}
         <TextureTab />
       </div>
     </>

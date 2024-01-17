@@ -8,7 +8,9 @@ import {
   EnvironmentColorToggle,
 } from "../redux/Global";
 
+// Component od swiatel i mesha swiata
 function LightControl() {
+  //Pobierania z reduxa wartosci z obiektow
   const directLight = useAppSelector(
     (state) => state.GlobalSettings.Lights.directLight
   );
@@ -16,8 +18,9 @@ function LightControl() {
     (state) => state.GlobalSettings.Lights.spotLight
   );
   const worldMesh = useAppSelector((state) => state.GlobalSettings.EnvColor);
+  // dispatch jest potrzebny aby wywolywac metody globalnych z reduxa
   const dispatch = useAppDispatch();
-
+  //funkcja odpowiedzialna za zmiane koloru zalezne od numeru inputu (switch aby wiedziec ktory dispatch uzyc i nie powielac funkcji)
   const handleColorChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     lightNum: number
@@ -37,6 +40,7 @@ function LightControl() {
         break;
     }
   };
+  //funkcja odpowiedzialna za wylaczanie/wlaczanie mesha/swiatla(switch aby wiedziec ktory dispatch uzyc i nie powielac funkcji)
   const toggleLights = (lightNum: number) => {
     switch (lightNum) {
       case 0:
@@ -53,9 +57,9 @@ function LightControl() {
         break;
     }
   };
-
   return (
     <div className="flex flex-row ">
+      {/* Div z meshem swiata */}
       <div className=" flex flex-col justify-center border-2 items-center border-red-400 p-1  max-w-max">
         <label>World Mesh</label>
         <input
@@ -70,6 +74,7 @@ function LightControl() {
           On/Off
         </div>
       </div>
+      {/* Div z direct light */}
       <div className=" flex flex-col justify-center border-2 items-center border-red-400 p-1  max-w-max">
         <label>Directional Light</label>
         <input
@@ -84,6 +89,7 @@ function LightControl() {
           On/Off
         </div>
       </div>
+      {/* div z spot light */}
       <div className=" flex flex-col justify-center border-2 items-center border-red-400 p-1  max-w-max">
         <label>Spot Light</label>
         <input

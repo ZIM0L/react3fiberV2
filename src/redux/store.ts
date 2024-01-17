@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import Shapes from "./Shapes";
 import GlobalSettings from "./Global";
-// ...
 
+// zmiene do odwolywanian sie 
 export const store = configureStore({
   reducer: {
     Shapes: Shapes,
@@ -10,7 +10,6 @@ export const store = configureStore({
   },
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+//  Potrzebne dla TS
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;

@@ -10,7 +10,7 @@ import {
   Outlines,
   Wireframe,
   Stars,
-  Sparkles
+  Sparkles,
 } from "@react-three/drei";
 
 import * as THREE from "three";
@@ -18,16 +18,19 @@ import InputTab from "./components/InputTab";
 import { useAppSelector } from "./hooks/hooks";
 import DirectionaLightComp from "./components/Lights/Directionallight";
 import SpotLightComp from "./components/Lights/SpotLight";
+// Glowny Component dla Canvasa
 const CanvasTest = () => {
+  //Pobierania z reduxa wartosci z obiektow
   const shapeArray = useAppSelector((state) => state.Shapes); // odczyt
   const Global = useAppSelector((state) => state.GlobalSettings); // odczyt
-
+  // textury lokalne
   const [colorMap] = useLoader(THREE.TextureLoader, ["stone.jpg"]);
   const [colorMap2] = useLoader(THREE.TextureLoader, ["low_poly.jpg"]);
   const [colorMap3] = useLoader(THREE.TextureLoader, ["black-polygon.jpg"]);
   const [colorMap4] = useLoader(THREE.TextureLoader, ["grass.jpg"]);
   const [colorMap5] = useLoader(THREE.TextureLoader, ["mesh.png"]);
 
+  // funkcja zwracajaca jaki ksztalt ma byc wyrenderowany
   const getShapeComponent = (shapeType: string) => {
     switch (shapeType) {
       case "Box":
@@ -39,10 +42,10 @@ const CanvasTest = () => {
       case "Cone":
         return Cone;
       default:
-        return Box; // Domyślny kształt
+        return Box; // Domyslny ksztalt
     }
   };
-
+  // funkcja odpowiedzialna aby dobry size byl dla danego ksztaltu
   const getShapeSize = (
     shapeType: string,
     size: number[]
@@ -61,41 +64,65 @@ const CanvasTest = () => {
     }
   };
 
-
   return (
     <>
+      {/* Component dla tworzenia ksztaltow i reszta */}
       <InputTab />
-      <Canvas style={{ position: "absolute" }} camera={{ position: [0, 4, 8] }} shadows>
-      <OrbitControls makeDefault  />
-      <ambientLight intensity={1.5} />
-
-      <SpotLightComp />
-      <DirectionaLightComp/>
-
-      {
-        Global.EnvColor.toogle 
-        ? 
-        <Environment background near={1} far={1000} resolution={256}>
-          <mesh scale={100}>
-            <sphereGeometry args={[1, 64, 64]} />
-            <meshBasicMaterial color={Global.EnvColor.mesh} side={THREE.BackSide} />
-          </mesh>
-        </Environment>
-        
-        :
-        <>
-          <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={3} />
-          <Sparkles count={120} speed={3.3} opacity={1} color={'#ffa500'} size={5} scale={[20,20,20]} noise={2}/>
-        </>
-      }
-
+      {/* Canvas */}
+      <Canvas
+        style={{ position: "absolute" }}
+        camera={{ position: [0, 4, 8] }}
+        shadows
+      >
+        {/* Component ,dzieki ktoremu poruszamy sie po swiecie */}
+        <OrbitControls makeDefault />
+        {/* ambient Light */}
+        <ambientLight intensity={1.5} />
+        {/* Component od spot light */}
+        <SpotLightComp />
+        {/* Component od direct light */}
+        <DirectionaLightComp />
+        {/* Wlaczanie i wylaczanie mesha (przy wylaczeniu male co nie co) */}
+        {Global.EnvColor.toogle ? (
+          <Environment background near={1} far={1000} resolution={256}>
+            <mesh scale={100}>
+              <sphereGeometry args={[1, 64, 64]} />
+              <meshBasicMaterial
+                color={Global.EnvColor.mesh}
+                side={THREE.BackSide}
+              />
+            </mesh>
+          </Environment>
+        ) : (
+          <>
+            <Stars
+              radius={100}
+              depth={50}
+              count={5000}
+              factor={4}
+              saturation={0}
+              fade
+              speed={3}
+            />
+            <Sparkles
+              count={120}
+              speed={3.3}
+              opacity={1}
+              color={"#ffa500"}
+              size={5}
+              scale={[20, 20, 20]}
+              noise={2}
+            />
+          </>
+        )}
+        {/* Wypisywanie ksztaltow z tablicy */}
         {shapeArray.value.map((shape, key) => {
           const ShapeComponent = getShapeComponent(shape.shape);
           return (
+            // PivotControls odpowiedzalne za poruszanie obiektami
             <PivotControls
               key={key}
               opacity={0.6}
-              
               scale={
                 ((shape.size[0] + shape.size[1] + shape.size[2]) / 4) * 1.2
               }
@@ -116,6 +143,7 @@ const CanvasTest = () => {
                 ]}
                 args={getShapeSize(shape.shape, shape.size)}
               >
+                {/* Material i nalozenie map (textur) */}
                 <meshStandardMaterial
                   color={shape.color}
                   map={
@@ -130,7 +158,9 @@ const CanvasTest = () => {
                       : colorMap5
                   }
                 />
+                {/* Outline dla lepszej widocznosci */}
                 <Outlines thickness={0.01} color="black" opacity={0.1} />
+                {/* Wireframe */}
                 {Global.wireframe && (
                   <Wireframe stroke={0xbc214a} thickness={0.02} />
                 )}

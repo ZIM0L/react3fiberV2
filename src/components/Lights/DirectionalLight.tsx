@@ -1,7 +1,8 @@
 import { PivotControls } from "@react-three/drei";
 import { useAppSelector } from "../../hooks/hooks";
-
+// Component Direct Light
 function DirectionaLightComp() {
+  // Poberanie wartosci z globalnych z Reduxa
   const Global = useAppSelector((state) => state.GlobalSettings); // odczyt
   const directionalLight = Global.Lights.directLight;
   return (

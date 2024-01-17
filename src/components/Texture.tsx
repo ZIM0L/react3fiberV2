@@ -1,20 +1,23 @@
 import { useState } from "react";
 import { useAppDispatch } from "../hooks/hooks";
 import { setShapeTexture } from "../redux/Shapes";
-
+// Component od nakladania textur
 function TextureTab() {
+  // dispatch jest potrzebny aby wywolywac metody globalnych z reduxa
   const dispatch = useAppDispatch();
+  //zmiene od textur
   const [selectedTexture, setSelectedTexture] = useState<number | null>(null);
   const [selectedTextureURL, setSelectedTextureURL] = useState<string>("");
   const [indexToUpdate, setIndexToUpdate] = useState<number>(0);
-
+  // funkcja od nakladania textur
   const handleTextureButton = (texture: number | null) => {
     setSelectedTexture(texture);
-    dispatch(setShapeTexture({ index: indexToUpdate, texture })); // Zmienić 0 na odpowiedni indeks kształtu
+    dispatch(setShapeTexture({ index: indexToUpdate, texture }));
   };
 
   return (
     <div className="flex-col justify-center">
+      {/* wybor po indexie na jaki ksztalt nalozyc texture */}
       <div>Index to texture:</div>
       <input
         type="number"
@@ -22,6 +25,7 @@ function TextureTab() {
         onChange={(e) => setIndexToUpdate(Number(e.target?.value))}
       />
       <div className="flex items-center flex-wrap justify-start min-w-10 py-2">
+        {/* textura 1 */}
         <div
           onClick={() => {
             handleTextureButton(10);
@@ -33,6 +37,7 @@ function TextureTab() {
         >
           Rock
         </div>
+        {/* textura 2 */}
         <div
           onClick={() => {
             handleTextureButton(11);
@@ -44,6 +49,7 @@ function TextureTab() {
         >
           Low Poly
         </div>
+        {/* textura 3 */}
         <div
           onClick={() => {
             handleTextureButton(12);
@@ -55,6 +61,7 @@ function TextureTab() {
         >
           Black Polygon
         </div>
+        {/* textura 4 */}
         <div
           onClick={() => {
             handleTextureButton(13);
@@ -66,6 +73,7 @@ function TextureTab() {
         >
           grass
         </div>
+        {/* textura 5 (sam mesh) */}
         <div
           onClick={() => {
             handleTextureButton(null);
@@ -78,6 +86,7 @@ function TextureTab() {
           Only Mesh
         </div>
       </div>
+      {/* miniaturka textury */}
       <img
         className="w-w20 h-20"
         src={selectedTextureURL}

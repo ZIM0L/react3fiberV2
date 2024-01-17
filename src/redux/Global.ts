@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
-export interface IGlobalSettings {
+// interface dla globacl
+interface IGlobalSettings {
   wireframe: boolean;
   EnvColor: {
     toogle: boolean;
@@ -21,7 +21,7 @@ export interface IGlobalSettings {
   };
 }
 
-// Define the initial state using that type
+// Poczatkowe wartosci
 const initialState: IGlobalSettings = {
   wireframe: false,
   EnvColor: {
@@ -42,10 +42,11 @@ const initialState: IGlobalSettings = {
     },
   },
 };
-
+// redux dla glodabi
 export const GlobalSettings = createSlice({
   name: "global",
   initialState,
+  // funckje dla swiatla, wireframa, mesha swiata
   reducers: {
     wireframeToggle: (state) => {
       state.wireframe = !state.wireframe;

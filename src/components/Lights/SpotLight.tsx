@@ -1,8 +1,9 @@
 import { PivotControls } from "@react-three/drei";
 import { useAppSelector } from "../../hooks/hooks";
 import { SpotLight } from "@react-three/drei";
-
+//Component Spot Light
 function SpotLightComp() {
+  // Poberanie wartosci z globalnych z Reduxa
   const Global = useAppSelector((state) => state.GlobalSettings); // odczyt
   const spotLight = Global.Lights.spotLight;
   return (
@@ -20,7 +21,7 @@ function SpotLightComp() {
             distance={spotLight.distance}
             angle={0.7}
             attenuation={7}
-            anglePower={2} // Diffuse-cone anglePower (default: 5)
+            anglePower={2}
             color={spotLight.color}
           ></SpotLight>
         </PivotControls>
