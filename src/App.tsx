@@ -16,7 +16,7 @@ import {
 import * as THREE from "three";
 import InputTab from "./components/InputTab";
 import { useAppSelector } from "./hooks/hooks";
-import DirectionaLightComp from "./components/Lights/Directionallight";
+import DirectionaLightComp from "./components/Lights/DirectionalLight";
 import SpotLightComp from "./components/Lights/SpotLight";
 // Glowny Component dla Canvasa
 const CanvasTest = () => {
